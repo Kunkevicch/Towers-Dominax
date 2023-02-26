@@ -7,27 +7,29 @@ public class TestShooter : MonoBehaviour
     public GameObject projectile;
     public GameObject gunOne,gunTwo;
     public RotateToMouse rotateToMouse;
-    private bool isFirstGunShooting = true;
 
-    private float fireRate = 0.5f, nextShootTime=0.0f;
+    private float fireRate = 0.3f, firstGunNextShootTime=0.1f,secondGunNextShootTime=0.8f;
 
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         if ( Input.GetMouseButton(0) )
         {
-            if(Time.time>nextShootTime)
+            if ( Time.time>firstGunNextShootTime )
             {
-                nextShootTime +=fireRate;
-                if ( isFirstGunShooting==true )
-                {
-                    Shoot(gunOne);
-                }
-                else
-                {
-                    Shoot(gunTwo);
-                }
-                
+                firstGunNextShootTime+=fireRate;
+                Shoot(gunOne);
+
+            }
+            if ( Time.time>secondGunNextShootTime )
+            {
+                secondGunNextShootTime+=fireRate;
+                Shoot(gunTwo);
             }
         }
     }
@@ -39,6 +41,5 @@ public class TestShooter : MonoBehaviour
         {
             VFX.transform.localRotation=rotateToMouse.GetRotation();
         }
-        isFirstGunShooting=!isFirstGunShooting;
     }
 }
